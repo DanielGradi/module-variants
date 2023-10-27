@@ -1,0 +1,23 @@
+{% if product.metafields.custom_fields["donwloads"] != blank %}
+  <div class="custom-field custom-field__donwloads custom-field__type--field-collection-json">
+    <h3 class="custom-field--title">donwloads</h3>
+    <div class="custom-field--value">
+      {% for item in product.metafields.custom_fields["donwloads"] %}
+        <div class="fc-item fc-index--{{ forloop.index0 }}">
+           {% if item["rico_theta_test_1"] != blank %}
+             <div class="fc-field field__rico-theta-test-1 field-type--text-repeater">
+               <h4 class="custom-field--title">Rico theta test 1</h4>
+               <div class="custom-field--value">
+                 {% for repeater_item in item["rico_theta_test_1"] %}
+                   <div class="repeater-item repeater-item--text">
+                     {{ repeater_item["rico_theta_test_1"] }}
+                   </div>
+                 {% endfor %}
+               </div>
+             </div>
+           {% endif %}
+         </div>
+       {% endfor %}
+    </div>
+  </div>
+{% endif %}
