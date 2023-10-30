@@ -1,0 +1,115 @@
+.graditify-variants {
+  display: grid;
+  grid-row-gap: 10px;
+  row-gap: 10px;
+
+  &--name {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+  }
+
+  &--radio-container {
+    display: flex;
+    flex-wrap: wrap;
+
+    label {
+      margin-right: 5px;
+
+      :last-of-type {
+        margin-right: 0;
+      }
+    }
+  }
+
+  &--options {
+    padding-top: 10px;
+
+    &:last-child {
+      padding-bottom: 10px;
+    }
+  }
+
+  &__radio-button {
+    cursor: pointer;
+
+    input {
+      &:checked + .graditify-variants__radio-button--design {
+        border: 1px solid #000;
+        box-shadow: 0 2px 5px rgba($color: #000, $alpha: 0.3);
+      }
+    }
+
+    &--design {
+      width: 20px;
+      height: 20px;
+      border: 1px solid rgba($color: #000, $alpha: 0.3);
+      border-radius: 50%;
+    }
+  }
+
+  &__radio-button[data-disable="true"] {
+    > span::before {
+      position: absolute;
+      top: 6px;
+      left: 16px;
+      width: 2px;
+      height: 69%;
+      background: #995555;
+      content: " ";
+      transform: rotate(45deg);
+    }
+  }
+
+  &--select-container {
+    position: relative;
+    display: flex;
+    padding: 2px 10px;
+    border: 1px solid #000;
+    border-radius: 5px;
+
+    select {
+      width: 100%;
+      padding: 10px 0;
+      border-style: none;
+      outline: none;
+      background: none;
+      appearance: none;
+    }
+
+    &:after {
+      content: "\203a";
+      font-size: 1.5rem;
+      position: absolute;
+      right: 12px;
+      top: 48%;
+      transform: translateY(-50%) rotate(90deg);
+    }
+  }
+}
+
+product-variants {
+  .btn {
+    padding: 15px 30px;
+    border-width: 1px;
+    border-style: none;
+    border-radius: 0px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s ease;
+    transition-property: background-color;
+    border: 1px solid #000;
+    background-color: #000;
+    color: #fff;
+
+    &:hover {
+      border: 1px solid #737373;
+      background-color: #fff;
+      color: #8c8c8c;
+    }
+
+    &:disabled {
+      opacity: 0.3;
+    }
+  }
+}

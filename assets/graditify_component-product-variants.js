@@ -12,6 +12,7 @@ class ProductVariants extends  HTMLElement {
       priceSelector: this.validateAttribute(this.getAttribute('price-selector')), // Optional
       imagesChange: this.validateAttribute(this.getAttribute('images-change')), // Optional
       variantsWrapper: this.validateAttribute(this.getAttribute('variants-wrapper')), // Optional
+      buttonSubmit: this.validateAttribute(this.getAttribute('button-submit')), // Optional
     }
     this.variants = $Q('.variants', this)
   }

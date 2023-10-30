@@ -1,0 +1,119 @@
+/*!****************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./assets/graditify_product-variants-styles.scss ***!
+  \****************************************************************************************************************************************/
+@charset "UTF-8";
+.product-variants-sticky {
+  background-color: #fff;
+  bottom: 0;
+  box-shadow: 2.72076px -8px 24px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+  height: auto;
+  left: 0;
+  padding: 0.6rem;
+  position: fixed;
+  margin: 0;
+  transition: bottom 0.5s ease-in-out;
+  width: 100%;
+  z-index: 2;
+}
+
+.graditify-variants {
+  display: grid;
+  grid-row-gap: 10px;
+  row-gap: 10px;
+}
+.graditify-variants--name {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+.graditify-variants--radio-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.graditify-variants--radio-container label {
+  margin-right: 5px;
+}
+.graditify-variants--radio-container label :last-of-type {
+  margin-right: 0;
+}
+.graditify-variants--options {
+  padding-top: 10px;
+}
+.graditify-variants--options:last-child {
+  padding-bottom: 10px;
+}
+.graditify-variants__radio-button {
+  cursor: pointer;
+}
+.graditify-variants__radio-button input:checked + .graditify-variants__radio-button--design {
+  border: 1px solid #000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+.graditify-variants__radio-button--design {
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+}
+.graditify-variants__radio-button[data-disable=true] > span::before {
+  position: absolute;
+  top: 6px;
+  left: 16px;
+  width: 2px;
+  height: 69%;
+  background: #995555;
+  content: " ";
+  transform: rotate(45deg);
+}
+.graditify-variants--select-container {
+  position: relative;
+  display: flex;
+  padding: 2px 10px;
+  border: 1px solid #000;
+  border-radius: 5px;
+}
+.graditify-variants--select-container select {
+  width: 100%;
+  padding: 10px 0;
+  border-style: none;
+  outline: none;
+  background: none;
+  appearance: none;
+}
+.graditify-variants--select-container:after {
+  content: "›";
+  font-size: 1.5rem;
+  position: absolute;
+  right: 12px;
+  top: 48%;
+  transform: translateY(-50%) rotate(90deg);
+}
+
+product-variants .btn {
+  padding: 15px 30px;
+  border-width: 1px;
+  border-style: none;
+  border-radius: 0px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s ease;
+  transition-property: background-color;
+  border: 1px solid #000;
+  background-color: #000;
+  color: #fff;
+}
+product-variants .btn:hover {
+  border: 1px solid #737373;
+  background-color: #fff;
+  color: #8c8c8c;
+}
+product-variants .btn:disabled {
+  opacity: 0.3;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/*# sourceMappingURL=graditify_product-variants.css.map*/

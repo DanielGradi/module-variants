@@ -7,7 +7,7 @@ const JS_ASSET = path.resolve(__dirname, './assets');
 
 const commonConfig = {
   entry: {
-    breadcrumbs: './assets/breadcrumbs.module.js',
+    'graditify_product-variants': './assets/graditify_product-variants.module.js'
   },
   output: {
     filename: '[name].js',

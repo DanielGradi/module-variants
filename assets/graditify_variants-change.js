@@ -20,16 +20,17 @@ async function sectionHandle(handle, variantId) {
   const {
     sectionRendering,
     priceSelector,
-    imagesChange
+    imagesChange,
+    buttonSubmit 
   } = thisParent.props
 
   const parentSpecific = $Q(sectionRendering, stringToHTML(htmlResponse))
   const variantPrice = priceSelector ? $Q(priceSelector, parentSpecific) : null;
   const variantAvailable = $Q(`${thisParent.tagName} [name="available"]`, parentSpecific);
-  const button = $Q(`${thisParent.tagName} .btn-cart-js`, parentSpecific);
+  const button = $Q(`${thisParent.tagName} ${buttonSubmit}`, parentSpecific);
   const imagesVariant = imagesChange ? $Q(imagesChange, parentSpecific) : null; // PDTE DARLE SOPORTE
   const imagesVariantSticky = $Q(`.graditify_variants--images img`, parentSpecific);
-
+  console.log({button})
   return {
     price: variantPrice ? variantPrice.outerHTML : null,
     available: variantAvailable.value,
@@ -74,7 +75,11 @@ function updatePrice(variantPrice, sectionPrice) {
  * @param {String} newText - New text in button add to cart
  */
 function updateButton(available, parent, newText) {
-  const button = $Q('.btn-cart-js', parent);
+  const {
+    buttonSubmit 
+  } = parent.props
+
+  const button = $Q(buttonSubmit, parent);
   button.innerHTML = newText;
 
   if (available === 'false') {
@@ -121,15 +126,15 @@ function updateVariantImage(imagesVariantSticky) {
 
   const {
     sectionRendering,
-    priceSelector
+    priceSelector,
+    buttonSubmit
   } = thisParent.props
 
-   const addcartBtn = $Q('.btn-cart-js', thisParent);
+   const addcartBtn = $Q(buttonSubmit, thisParent);
    const {
     value,
     dataset,
   } = $Q('[name="id"]', thisParent);
-
   addcartBtn.disabled = true;
   addcartBtn.innerHTML = '<div id="loading"></div>';
 

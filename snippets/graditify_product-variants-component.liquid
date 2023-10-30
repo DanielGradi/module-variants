@@ -41,18 +41,14 @@
 
 {% endcomment %}
 <product-variants
-  intersection-element=".main-product"
-  section-rendering=".main-product"
-  price-selector=".price-product-js"
+  intersection-element=".product-section"
+  section-rendering=".product-section"
+  price-selector=".product-section .price"
   media-query=""
-  variants-wrapper=".main-product__detail"
+  variants-wrapper=".product-section__variants"
   images-change=""
+  button-submit=".product-form__submit"
 >
-  <form
-    action="/cart/add"
-    class="add-cart-js add-product-cart form-product"
-    data-product="{{ product.id }}"
-  >
     {% comment %}
       Optional
     {% endcomment %}
@@ -80,17 +76,10 @@
       available: available
     %}
 
-    <button
-      class="btn btn-add-to-cart btn-cart-js"
-      type="submit"
-    >
-      {%- if available -%}
-        {{ 'products.product.add_to_cart' | t }}
-      {%- else -%}
-        {{ 'products.product.sold_out' | t }}
-      {%- endif -%}
-    </button>
-  </form>
+    {% if button_form %}
+      {{ button_form }}
+    {% endif %}
+
 </product-variants>
 
 <script

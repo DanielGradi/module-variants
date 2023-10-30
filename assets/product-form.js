@@ -13,13 +13,12 @@ if (!customElements.get('product-form')) {
       evt.preventDefault();
       const submitButton = this.querySelector('[type="submit"]');
       if (submitButton.classList.contains('loading')) return; 
-
+      console.log({submitButton})
       this.handleErrorMessage();
       this.cartNotification.setActiveElement(document.activeElement);
 
       submitButton.setAttribute('aria-disabled', true);
       submitButton.classList.add('loading');
-      this.querySelector('.loading-overlay__spinner').classList.remove('hidden');
 
       const config = fetchConfig('javascript');
       config.headers['X-Requested-With'] = 'XMLHttpRequest';
@@ -45,7 +44,6 @@ if (!customElements.get('product-form')) {
         .finally(() => {
           submitButton.classList.remove('loading');
           submitButton.removeAttribute('aria-disabled');
-          this.querySelector('.loading-overlay__spinner').classList.add('hidden');
         });
     }
 
