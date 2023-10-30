@@ -1,0 +1,143 @@
+{% comment %}
+
+  Options in product form
+
+  Accepts:
+  - option_radio: {String} This prop will represent the variant
+  on a radio button, recommended for colors (Color Material etc).
+  - show_variant: {String} Indicates which variants will be rendered.
+  If only "Color" is set, only the color variant will be rendered.
+  - available: {Boolean} Available selected or first available variant
+
+  Note: The variants must be passed as parameters as
+  they are called in the manager.
+
+  Usage:
+  {% render 'graditify_form-variants-component'
+    product: product,
+    option_radio: 'Color Material'
+    show_variant: 'Color Material'
+    available: available
+  %}
+{% endcomment %}
+
+<link
+  rel="stylesheet"
+  href="{{ 'graditify_form-variants.css' | asset_url }}"
+/>
+
+{%-liquid
+  assign first_variant = product.selected_or_first_available_variant
+  assign available = first_variant.available
+-%}
+
+<form-variants
+  class="graditify-variants"
+  section-rendering=".main-product"
+  button-submit=".btn-cart-js"
+  price-selector=".price-product-js"
+>
+  <input
+    type="hidden"
+    name="available"
+    value="{{ available }}"
+  />
+  <input
+    type="hidden"
+    id="variants"
+    value="{{ product.variants | json | escape }}"
+  />
+  <input
+    type="hidden"
+    id="options"
+    value="{{ product.options | json | escape }}"
+  />
+
+  <input
+    type="hidden"
+    name="id"
+    value="{{ first_variant.id }}"
+    data-variant="{{ product.handle }}"
+  />
+
+  {%- unless product.has_only_default_variant -%}
+    {%- for option_name in product.options -%}
+
+      {% liquid
+        if forloop.index == 1
+          assign available_value = first_variant.option1 | strip
+        elsif forloop.index == 2
+          assign available_value = first_variant.option2 | strip
+        elsif forloop.index == 3
+          assign available_value = first_variant.option3 | strip
+        endif
+      %}
+
+      <div
+        class="graditify-variants--options
+        {% unless show_variant contains option_name %}
+          hidden
+        {% endunless %}"
+      >
+        <span class="graditify-variants--name">
+          {{ option_name }}
+        </span>
+        {%- if option_radio contains option_name -%}
+          <div
+            class="graditify-variants--radio-container"
+            data-type="{{ option_name }}"
+          >
+            <!-- eslint-disable max-len -->
+            {%- for option_value in product.options_by_name[option_name].values -%}
+              <label
+                class="graditify-variants__radio-button"
+                title="{{ option_name }} {{ option_value }}"
+              >
+                <input
+                  class="hidden js-option"
+                  type="radio"
+                  name="{{ option_name }}"
+                  value="{{ option_value }}"
+                  {% if option_value == available_value %}
+                    checked="checked"
+                  {% endif %}
+                />
+                <div
+                  class="graditify-variants__radio-button--design option_
+                  {{- option_value | handleize -}}"
+                >
+                </div>
+              </label>
+            {%- endfor -%}
+          </div>
+        {%- else -%}
+          {% capture options %}
+            {%- for option_value in product.options_by_name[option_name].values -%}
+              <option
+                value="{{ option_value }}"
+                {% if available_value == option_value %}
+                  selected="true"
+                {% endif %}
+              >
+                {{ option_value }}
+              </option>
+            {%- endfor -%}
+          {% endcapture %}
+
+          {% render 'graditify_select-option'
+            name: option_name,
+            class: 'graditify-variants--select-container',
+            options: options
+          %}
+
+        {%- endif -%}
+
+      </div>
+    {%- endfor -%}
+  {%- endunless -%}
+</form-variants>
+
+<script
+  src="{{ 'graditify_form-variants.js' | asset_url }}"
+  defer="defer"
+></script>

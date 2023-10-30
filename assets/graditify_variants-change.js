@@ -9,7 +9,7 @@ import { shopifyVariantByUrl } from "graditify-api";
  * @returns Object - price, available, button
  */
 async function sectionHandle(handle, variantId) {
-  const thisParent = $Q('product-variants');
+  const thisParent = $Q('form-variants');
 
   if (!thisParent) return
 
@@ -20,22 +20,21 @@ async function sectionHandle(handle, variantId) {
   const {
     sectionRendering,
     priceSelector,
-    imagesChange
+    imagesChange,
+    buttonSubmit
   } = thisParent.props
 
   const parentSpecific = $Q(sectionRendering, stringToHTML(htmlResponse))
   const variantPrice = priceSelector ? $Q(priceSelector, parentSpecific) : null;
   const variantAvailable = $Q(`${thisParent.tagName} [name="available"]`, parentSpecific);
-  const button = $Q(`${thisParent.tagName} .btn-cart-js`, parentSpecific);
+  const button = $Q(`${buttonSubmit}`, parentSpecific);
   const imagesVariant = imagesChange ? $Q(imagesChange, parentSpecific) : null; // PDTE DARLE SOPORTE
-  const imagesVariantSticky = $Q(`.graditify_variants--images img`, parentSpecific);
 
   return {
     price: variantPrice ? variantPrice.outerHTML : null,
     available: variantAvailable.value,
     button: button.textContent,
     images: imagesVariant ? imagesVariant : null,
-    imagesVariantSticky: imagesVariantSticky ? imagesVariantSticky.outerHTML : null,
   }
 }
 
@@ -48,13 +47,6 @@ async function sectionHandle(handle, variantId) {
  *
  */
 function updatePrice(variantPrice, sectionPrice) {
-  const intoElementPrice = $Q('product-variants .price-product-js')
-
-  // Intern price in product-variants web component
-  if (intoElementPrice && variantPrice) {
-    intoElementPrice.innerHTML = variantPrice;
-  }
-
   /**
    * Price out in product-variants web component
    * This part depend of price-selector attribute in the web component -> product-variants
@@ -74,7 +66,11 @@ function updatePrice(variantPrice, sectionPrice) {
  * @param {String} newText - New text in button add to cart
  */
 function updateButton(available, parent, newText) {
-  const button = $Q('.btn-cart-js', parent);
+  const {
+    buttonSubmit
+  } = parent.props
+
+  const button = $Q(buttonSubmit);
   button.innerHTML = newText;
 
   if (available === 'false') {
@@ -95,14 +91,6 @@ function updateSlider(sectionParent, images) {
   // If you are going to update product slider, in this mC)thod add lC3gic.
 }
 
-function updateVariantImage(imagesVariantSticky) {
-  const imageVariantWrapper = $Q('product-variants .graditify_variants--images')
-  console.log({imagesVariantSticky})
-  if (!imageVariantWrapper) return
-
-  imageVariantWrapper.innerHTML = imagesVariantSticky
-}
-
 /**
  * Section rendering to dynamic price
  * and available data, changing the values on Cart page
@@ -117,14 +105,15 @@ function updateVariantImage(imagesVariantSticky) {
  * @version 2.0
  */
  export async function queryVariants({ target }) {
-  const thisParent = target.closest('product-variants');
+  const thisParent = target.closest('form-variants');
 
   const {
     sectionRendering,
-    priceSelector
+    priceSelector,
+    buttonSubmit
   } = thisParent.props
 
-   const addcartBtn = $Q('.btn-cart-js', thisParent);
+   const addcartBtn = $Q(buttonSubmit);
    const {
     value,
     dataset,
@@ -138,12 +127,10 @@ function updateVariantImage(imagesVariantSticky) {
     available,
     button,
     images,
-    imagesVariantSticky
   } = await sectionHandle(dataset.variant, value);
 
   updateButton(available, thisParent, button);
   updatePrice(price, $Q(priceSelector));
-  updateVariantImage(imagesVariantSticky)
 
   if(images) updateSlider($Q(sectionRendering), images)
 }
