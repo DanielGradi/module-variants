@@ -1,0 +1,99 @@
+
+<link
+  rel="stylesheet"
+  href="{{ 'graditify_product-variants.css' | asset_url }}"
+/>
+
+{%-liquid
+  assign first_variant = product.selected_or_first_available_variant
+  assign available = first_variant.available
+-%}
+
+{% comment %}
+
+  intersection-element y variants-wrapper TRABAJAN JUNTOS
+
+  intersection-element: Required - Lo usamos para el intersection observer
+  y poder mover el web component en el DOM
+
+  variants-wrapper: Required - Para saber a que contenedor regresar
+  el product-variants cuando deje de ser sticky
+
+  section-rendering: Required - Para llamar la section
+  (donde estC! el product-variants) desde la API de shopify y tener nuevos datos
+
+  media-query: optional - Para saber en hasta que breakpoint se renderizarC!
+  el product-variants. Nota funciona como el max-width.
+
+  price-selector: optional - Para saber en que nodo actualizar el precio
+
+  IMAGES:
+  Si necesita agregar el cambio de imC!genes o slider
+  cuando se hace en onChange de las variantes.
+
+  Debe hacer:
+  1. Agregar el atributo:
+    key: images-change
+    value: el selector dC3nde se encuentra el slider. ex: ".product-media"
+  2. Utilice el mC)todo `updateSlider` para crear la lC3gica de renderizar
+    nuevamente el slider y/o imC!genes de la product page
+  3. File: graditify_variants-change.js
+
+{% endcomment %}
+<product-variants
+  intersection-element=".main-product"
+  section-rendering=".main-product"
+  price-selector=".price-product-js"
+  media-query=""
+  variants-wrapper=".main-product__detail"
+  images-change=""
+>
+  <form
+    action="/cart/add"
+    class="add-cart-js add-product-cart form-product"
+    data-product="{{ product.id }}"
+  >
+    {% comment %}
+      Optional
+    {% endcomment %}
+    <div class="graditify_variants--images hidden">
+      <img
+        src="{{ product.selected_or_first_available_variant.featured_image
+          | default: product.featured_image | image_url }}"
+        alt="{{ product.selected_or_first_available_variant.featured_image.alt
+          | default: product.featured_image.alt }}"
+        loading="lazy"
+        width="100"
+        height="100"
+      />
+    </div>
+
+    {% comment %}
+      Optional
+    {% endcomment %}
+    {% render 'graditify_price', product: product %}
+
+    {% render 'graditify_variants-form'
+      product: product,
+      option_radio: 'Color',
+      show_variant: 'Color Material TamaC1o Services',
+      available: available
+    %}
+
+    <button
+      class="btn btn-add-to-cart btn-cart-js"
+      type="submit"
+    >
+      {%- if available -%}
+        {{ 'products.product.add_to_cart' | t }}
+      {%- else -%}
+        {{ 'products.product.sold_out' | t }}
+      {%- endif -%}
+    </button>
+  </form>
+</product-variants>
+
+<script
+  src="{{ 'graditify_product-variants.js' | asset_url }}"
+  defer="defer"
+></script>
