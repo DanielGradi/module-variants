@@ -46,7 +46,7 @@ import { queryVariants } from "./graditify_variants-change";
  * @returns Replacement of id in the dom (on input[name="id"])
  */
 function selectVariant(parent) {
-  const thisParent = $Q('product-variants')
+  const thisParent = $Q('form-variants');
   const variantName = optionsChecked(parent);
   const variants = JSON.parse($Q('#variants', parent).value);
 
